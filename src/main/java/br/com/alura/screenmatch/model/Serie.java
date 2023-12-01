@@ -20,12 +20,10 @@ public class Serie {
     @Enumerated(EnumType.STRING)
     private Categoria genero;
     private String poster;
-    @Transient
+    @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL, fetch = FetchType.EAGER) //o atributo série em Episódio
     private List<Episodio>episodios = new ArrayList<>();
 
-
 //transient = não persistir esse atributo no banco de dados
-
 
     public Serie() {
     }
@@ -46,6 +44,7 @@ public class Serie {
     }
 
     public void setEpisodios(List<Episodio> episodios) {
+        episodios.forEach(e -> e.setSerie(this) );
         this.episodios = episodios;
     }
 
@@ -121,6 +120,7 @@ public class Serie {
                 ", avaliação: " + avaliacao +
                 ", sinopse:' " + sinopse + '\'' +
                 ", atores:' " + atores + '\'' +
-                ", poster:' " + poster + '\'';
+                ", poster:' " + poster + '\'' +
+                ", episódios:' " + episodios + '\'';
     }
 }
